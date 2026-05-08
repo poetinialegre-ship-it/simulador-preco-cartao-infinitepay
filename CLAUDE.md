@@ -100,10 +100,11 @@ Tudo (HTML + CSS + JS) está em **um único arquivo HTML**, sem dependências ex
 
 ## 8. Como manter / evoluir
 
-- Se as taxas da InfinitePay mudarem, atualize o objeto `TAXAS` no `<script>` do HTML e a tabela da seção 3 deste arquivo.
+- Se as taxas da InfinitePay mudarem, atualize o objeto `TAXAS` no `<script>` do `index.html` e a tabela da seção 3 deste arquivo.
 - Para verificar as taxas atuais: logar em `app.infinitepay.io` → "Cobrar" (Nova cobrança) → digitar qualquer valor → "Continuar" → "Parcelamento e taxas". A lista de "Ou você assume as parcelas" mostra os percentuais por parcela.
 - Se o plano de recebimento mudar (de D+1 para "na hora"), as taxas serão maiores — re-extraia.
 - O arquivo está em pasta com OneDrive, então qualquer salvamento já sincroniza para a nuvem do usuário.
+- **Para republicar a versão online:** dentro da pasta, `git add . && git commit -m "..." && git push`. O GitHub Pages republica em ~30s. Detalhes na seção 11.
 
 ## 9. Histórico das decisões nessa conversa
 
@@ -113,6 +114,14 @@ Tudo (HTML + CSS + JS) está em **um único arquivo HTML**, sem dependências ex
 4. Layout migrado de **cards** para **tabela** (Parc. / Valor da parcela / Total / Taxa) por preferência do usuário.
 5. Removidas todas as menções a "Link InfinitePay" / "Pagamento via InfinitePay" nos resumos copiáveis, pois o usuário cobra pelo **Asaas** — a InfinitePay é só fonte das taxas.
 6. Adicionada especificação "no cartão de crédito" e a lista de bandeiras aceitas pelo Asaas (Visa, Mastercard, Elo, Amex, Hipercard, Diners) em ambos os resumos.
+7. **Publicação no GitHub Pages (08/05/2026)** — usuário pediu para hospedar online pra poder mandar o link pros clientes. Decisões tomadas:
+   - Conta: `poetinialegre-ship-it` (única logada no `gh`, plano Free).
+   - Repo: `simulador-preco-cartao-infinitepay`, **público** (Pages em repo privado exigiria GitHub Pro — não justifica).
+   - Branch `main`, source path `/` (root), build legacy.
+   - Renomeado `calculadora-infinitepay.html` → `index.html` para a URL ficar limpa (`/<repo>/` em vez de `/<repo>/calculadora-infinitepay.html`). Conteúdo do HTML não foi alterado.
+   - URL final: https://poetinialegre-ship-it.github.io/simulador-preco-cartao-infinitepay/
+8. Removida pasta `.git/` corrompida que tinha sobrado de uma sandbox anterior (Cowork) que travou no meio de um `git init` — `git status` falhava com "fatal: not a git repository". Foi recriado do zero antes do push.
+9. Removido `PUBLICAR-NO-GITHUB.md` — era um guia manual em PowerShell pra publicação que ficou obsoleto após o deploy automatizado. Instruções de update foram pro README.md.
 
 ## 10. Diretrizes de comportamento para o Claude
 
@@ -121,3 +130,25 @@ Tudo (HTML + CSS + JS) está em **um único arquivo HTML**, sem dependências ex
 - **Não mude as bandeiras** sem antes confirmar com o usuário — a lista está alinhada às bandeiras aceitas pelo Asaas.
 - Se o usuário pedir para adicionar débito/Pix, lembre que essas operações têm taxas diferentes na InfinitePay (não estão na tabela atual).
 - Sempre que mexer no HTML, valide o cálculo com um caso conhecido: R$ 100 em 12x → R$ 10,00/parcela, total R$ 119,99.
+- O arquivo principal **agora se chama `index.html`** (não `calculadora-infinitepay.html`) — necessário pro GitHub Pages servir na raiz do repo. Não renomeie de volta.
+- Toda mudança no `index.html` deve ser commitada e pushada (vide seção 11) — caso contrário, a versão online fica desatualizada em relação à local.
+
+## 11. Deploy / hospedagem
+
+- **Plataforma:** GitHub Pages (gratuito, repo público).
+- **Repo:** https://github.com/poetinialegre-ship-it/simulador-preco-cartao-infinitepay
+- **URL pública:** https://poetinialegre-ship-it.github.io/simulador-preco-cartao-infinitepay/
+- **Source:** branch `main`, path `/` (root). O Pages serve `index.html` automaticamente.
+- **Build:** legacy (sem Jekyll customizado — só serve os arquivos como estão).
+- **Atualizar versão online:** commit + push na `main` → Pages republica em ~30s.
+- **Comandos úteis:**
+  - `gh repo view poetinialegre-ship-it/simulador-preco-cartao-infinitepay --web` — abre o repo no navegador.
+  - `gh api repos/poetinialegre-ship-it/simulador-preco-cartao-infinitepay/pages --jq .status` — checa status do build (`built`, `building`, `errored`).
+  - `gh api repos/poetinialegre-ship-it/simulador-preco-cartao-infinitepay/pages/builds/latest` — detalhes do último build (útil quando dá erro).
+- **Reinstalando o ambiente em outra máquina:**
+  ```powershell
+  gh auth login                                                            # se ainda não logou
+  gh repo clone poetinialegre-ship-it/simulador-preco-cartao-infinitepay   # clona o repo
+  cd simulador-preco-cartao-infinitepay
+  ```
+- **Por que Pages e não outro lugar:** custo zero, sem servidor, e o repo já fica versionado. A cobrança continua sendo feita pelo Asaas — Pages só hospeda a calculadora estática (vide seção 2).
