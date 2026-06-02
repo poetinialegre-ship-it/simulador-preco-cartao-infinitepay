@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador de Parcelamento — InfinitePay</title>
+<title>Simulador de Parcelamento no Cartão</title>
 <style>
   :root {
-    --ip-black: #0a0a0a;
-    --ip-lime: #d2fc73;
-    --ip-lime-dark: #aee651;
-    --ip-gray-50: #fafafa;
-    --ip-gray-100: #f4f4f5;
-    --ip-gray-200: #e4e4e7;
-    --ip-gray-300: #d4d4d8;
-    --ip-gray-500: #71717a;
-    --ip-gray-700: #3f3f46;
-    --ip-gray-900: #18181b;
-    --ip-success: #16a34a;
+    --c-dark: #0f172a;
+    --c-accent: #fbbf24;
+    --c-accent-dark: #f59e0b;
+    --c-gray-50: #fafafa;
+    --c-gray-100: #f4f4f5;
+    --c-gray-200: #e4e4e7;
+    --c-gray-300: #d4d4d8;
+    --c-gray-500: #71717a;
+    --c-gray-700: #3f3f46;
+    --c-gray-900: #18181b;
+    --c-success: #16a34a;
     --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
     --shadow-md: 0 4px 12px rgba(0,0,0,.08);
     --shadow-lg: 0 10px 30px rgba(0,0,0,.12);
@@ -26,9 +26,9 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
     min-height: 100vh;
-    color: var(--ip-gray-900);
+    color: var(--c-gray-900);
     padding: 24px 16px;
     -webkit-font-smoothing: antialiased;
   }
@@ -48,21 +48,21 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: var(--ip-lime);
-    color: var(--ip-black);
+    background: var(--c-accent);
+    color: var(--c-dark);
     padding: 8px 16px;
     border-radius: 999px;
     font-weight: 700;
     font-size: 14px;
     margin-bottom: 16px;
-    box-shadow: 0 0 30px rgba(210, 252, 115, .3);
+    box-shadow: 0 0 30px rgba(251, 191, 36, .3);
   }
 
   .logo-badge::before {
     content: "";
     width: 10px;
     height: 10px;
-    background: var(--ip-black);
+    background: var(--c-dark);
     border-radius: 50%;
   }
 
@@ -91,7 +91,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--ip-gray-500);
+    color: var(--c-gray-500);
     margin-bottom: 12px;
   }
 
@@ -106,7 +106,7 @@
     left: 24px;
     font-size: 28px;
     font-weight: 600;
-    color: var(--ip-gray-500);
+    color: var(--c-gray-500);
     pointer-events: none;
   }
 
@@ -115,19 +115,19 @@
     padding: 24px 24px 24px 70px;
     font-size: 36px;
     font-weight: 700;
-    border: 2px solid var(--ip-gray-200);
+    border: 2px solid var(--c-gray-200);
     border-radius: 14px;
-    background: var(--ip-gray-50);
-    color: var(--ip-gray-900);
+    background: var(--c-gray-50);
+    color: var(--c-gray-900);
     transition: all .2s ease;
     font-variant-numeric: tabular-nums;
   }
 
   #valor:focus {
     outline: none;
-    border-color: var(--ip-black);
+    border-color: var(--c-dark);
     background: #fff;
-    box-shadow: 0 0 0 4px rgba(210, 252, 115, .35);
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, .35);
   }
 
   .info-bar {
@@ -141,21 +141,21 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: var(--ip-gray-100);
-    color: var(--ip-gray-700);
+    background: var(--c-gray-100);
+    color: var(--c-gray-700);
     padding: 8px 14px;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 500;
   }
 
-  .info-pill strong { color: var(--ip-gray-900); }
+  .info-pill strong { color: var(--c-gray-900); }
 
   .tabela-wrapper {
     margin-top: 8px;
     border-radius: 14px;
     overflow: hidden;
-    border: 1px solid var(--ip-gray-200);
+    border: 1px solid var(--c-gray-200);
   }
 
   .tabela {
@@ -165,7 +165,7 @@
   }
 
   .tabela thead th {
-    background: var(--ip-black);
+    background: var(--c-dark);
     color: #fff;
     text-align: left;
     padding: 14px 18px;
@@ -184,62 +184,62 @@
 
   .tabela tbody td {
     padding: 14px 18px;
-    border-bottom: 1px solid var(--ip-gray-200);
+    border-bottom: 1px solid var(--c-gray-200);
     font-size: 15px;
-    color: var(--ip-gray-900);
+    color: var(--c-gray-900);
   }
 
   .tabela tbody tr:last-child td { border-bottom: none; }
 
   .tabela tbody tr:nth-child(even) {
-    background: var(--ip-gray-50);
+    background: var(--c-gray-50);
   }
 
   .tabela tbody tr:hover {
-    background: rgba(210, 252, 115, .15);
+    background: rgba(251, 191, 36, .15);
   }
 
   .tabela tbody tr.destaque {
-    background: linear-gradient(135deg, rgba(210,252,115,.18) 0%, rgba(210,252,115,.08) 100%);
+    background: linear-gradient(135deg, rgba(251,191,36,.18) 0%, rgba(251,191,36,.08) 100%);
   }
 
   .tabela tbody tr.destaque td {
     font-weight: 700;
-    color: var(--ip-black);
+    color: var(--c-dark);
   }
 
   .tabela .col-num {
     width: 80px;
     text-align: center;
     font-weight: 700;
-    color: var(--ip-gray-700);
+    color: var(--c-gray-700);
   }
 
   .tabela .col-num .badge-num {
     display: inline-block;
-    background: var(--ip-gray-100);
-    border: 1px solid var(--ip-gray-200);
+    background: var(--c-gray-100);
+    border: 1px solid var(--c-gray-200);
     border-radius: 8px;
     padding: 4px 10px;
     font-size: 14px;
     font-weight: 800;
-    color: var(--ip-gray-900);
+    color: var(--c-gray-900);
     min-width: 42px;
   }
 
   .tabela tr.destaque .badge-num {
-    background: var(--ip-lime);
-    border-color: var(--ip-lime-dark);
+    background: var(--c-accent);
+    border-color: var(--c-accent-dark);
   }
 
   .tabela .col-parcela {
     font-size: 17px;
     font-weight: 700;
-    color: var(--ip-gray-900);
+    color: var(--c-gray-900);
   }
 
   .tabela .col-parcela .x-mini {
-    color: var(--ip-gray-500);
+    color: var(--c-gray-500);
     font-weight: 500;
     font-size: 13px;
     margin-right: 4px;
@@ -252,7 +252,7 @@
 
   .tabela .col-taxa {
     text-align: right;
-    color: var(--ip-gray-500);
+    color: var(--c-gray-500);
     font-size: 13px;
     width: 90px;
   }
@@ -281,22 +281,22 @@
   }
 
   .btn-primary {
-    background: var(--ip-lime);
-    color: var(--ip-black);
+    background: var(--c-accent);
+    color: var(--c-dark);
   }
 
   .btn-primary:hover {
-    background: var(--ip-lime-dark);
+    background: var(--c-accent-dark);
     transform: translateY(-1px);
   }
 
   .btn-secondary {
-    background: var(--ip-black);
+    background: var(--c-dark);
     color: #fff;
   }
 
   .btn-secondary:hover {
-    background: var(--ip-gray-700);
+    background: var(--c-gray-700);
     transform: translateY(-1px);
   }
 
@@ -307,7 +307,7 @@
     top: 24px;
     left: 50%;
     transform: translateX(-50%) translateY(-120%);
-    background: var(--ip-success);
+    background: var(--c-success);
     color: #fff;
     padding: 14px 24px;
     border-radius: 12px;
@@ -332,7 +332,7 @@
   .empty-state {
     text-align: center;
     padding: 40px 20px;
-    color: var(--ip-gray-500);
+    color: var(--c-gray-500);
   }
 
   .empty-state-icon {
@@ -362,7 +362,6 @@
 <div class="container">
 
   <div class="header">
-    <div class="logo-badge">InfinitePay</div>
     <h1>Simulador de Parcelamento</h1>
     <p>Link de Pagamento • Recebimento em 1 dia útil • Taxas repassadas ao cliente</p>
   </div>
@@ -399,8 +398,8 @@
   </div>
 
   <div class="footer-note">
-    Taxas oficiais da InfinitePay (Plano D+1, Repasse de Taxas).<br>
-    Valores conferidos diretamente na conta logada • Atualizado em 08/05/2026
+    Taxas com repasse para o cliente (Plano D+1).<br>
+    Atualizado em 08/05/2026
   </div>
 
 </div>
@@ -421,7 +420,7 @@
     9:  14.25,
     10: 15.06,
     11: 15.87,
-    12: 16.66
+    12: 16.6667
   };
 
   const inputValor = document.getElementById('valor');
