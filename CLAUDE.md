@@ -54,7 +54,7 @@ Exemplo: venda de R$ 10.000,00 em 12x à taxa de 16,6667% → total cliente = 10
 - Tema visual: **slate-navy + âmbar dourado** (`--c-dark: #0f172a`, `--c-accent: #fbbf24`, `--c-accent-dark: #f59e0b`). Variáveis CSS prefixadas com `--c-` (não `--ip-`). Versão anterior era preto + verde-limão (`#0a0a0a` / `#d2fc73`) — foi trocada em 2026-06-01 pra desvincular visualmente da InfinitePay.
 - Input de valor da venda com máscara BRL e prefixo "R$".
 - Botões para **copiar resumo** (texto plano) e **copiar formato WhatsApp** (com `*negrito*` e `_itálico_`).
-- Pílulas informativas no topo do cartão de input: "Recebe em 1 dia útil", "Cliente paga em até 12x", "Você recebe o valor cheio".
+- **Sem pílulas informativas** no topo do cartão de input. As três pílulas que existiam ("Recebe em 1 dia útil", "Cliente paga em até 12x", "Você recebe o valor cheio") foram removidas em 2026-06-01 porque remetiam ao discurso da InfinitePay. O CSS de `.info-bar` / `.info-pill` ficou no arquivo mas órfão — não usar sem confirmação.
 
 ## 6. Formato dos resumos (texto copiado)
 
@@ -131,6 +131,7 @@ Tudo (HTML + CSS + JS) está em **um único arquivo HTML**, sem dependências ex
     - Paleta visual trocada de preto + verde-limão (`#0a0a0a` / `#d2fc73`) para **slate-navy + âmbar dourado** (`#0f172a` / `#fbbf24`). Variáveis CSS renomeadas de `--ip-*` para `--c-*` (e `--c-black`/`--c-lime` viraram `--c-dark`/`--c-accent`).
     - **Taxa de 12x ajustada de 16,66% (oficial InfinitePay) para 16,6667%** para que R$ 10.000 em 12x dê exatamente R$ 1.000,00/parcela. Display arredondado mostra "16,67%". Taxas de 1x a 11x permanecem oficiais.
     - O nome do repositório/URL pública (`simulador-preco-cartao-infinitepay`) **não foi renomeado** porque já há links compartilhados em circulação.
+    - **Removidas as três pílulas informativas** do topo do cartão de input ("Recebe em 1 dia útil", "Cliente paga em até 12x", "Você recebe o valor cheio") — remetiam ao discurso de marketing da InfinitePay. CSS órfão de `.info-bar` / `.info-pill` ficou no arquivo.
 
 ## 10. Diretrizes de comportamento para o Claude
 
