@@ -14,7 +14,7 @@ O usuário preenche o valor da venda → aparece a tabela de 1x a 12x com o valo
 
 - **O usuário NÃO cobra pela InfinitePay.** Ele cobra pelo **Asaas**.
 - A InfinitePay é usada apenas como **referência de taxas** — o usuário gosta da tabela de taxas dela e quer aplicar a mesma lógica de repasse nas suas cobranças via Asaas.
-- Por isso, **nenhum texto dos resumos pode mencionar "InfinitePay" ou "Link InfinitePay"** como meio de pagamento. A marca aparece apenas no cabeçalho da própria calculadora, como referência das taxas.
+- Por isso, **a página foi descaracterizada da marca InfinitePay** (sessão 2026-06-01): nem os resumos copiáveis, nem o cabeçalho, nem o `<title>`, nem o rodapé mencionam "InfinitePay". A paleta de cores também foi trocada pra não lembrar a marca. O único lugar onde "infinitepay" ainda aparece é no **nome do repositório/URL pública**, que não é renomeado pra não quebrar o link já compartilhado.
 - As bandeiras aceitas devem ser as **bandeiras aceitas pelo Asaas**: Visa, Mastercard, Elo, American Express, Hipercard e Diners Club.
 
 ## 3. Taxas oficiais (extraídas da conta do usuário em 08/05/2026)
@@ -28,7 +28,9 @@ Plano: **Link de Pagamento • Recebimento em 1 dia útil (D+1) • Repassar tax
 | 3x       | 7,01% | 9x       | 14,25% |
 | 4x       | 7,91% | 10x      | 15,06% |
 | 5x       | 8,80% | 11x      | 15,87% |
-| 6x       | 9,67% | 12x      | 16,66% |
+| 6x       | 9,67% | 12x      | 16,6667%\* |
+
+\* **12x diverge da taxa oficial InfinitePay (16,66%)** desde 2026-06-01. Foi ajustada para `16.6667` (≈ 1/6) para que R$ 10.000 em 12x dê **R$ 1.000,00/parcela** e **R$ 12.000,00 total** exatos — pedido do usuário pra simplificar a comunicação com o cliente. Display arredonda pra "16,67%". As taxas de 1x a 11x continuam as oficiais.
 
 Observe o salto de 6x → 7x (9,67% → 12,59%), que reflete a mudança de faixa interna do plano.
 
@@ -41,15 +43,15 @@ total_cliente = valor_venda / (1 - taxa)
 parcela       = total_cliente / n
 ```
 
-Exemplo: venda de R$ 100,00 em 12x à taxa de 16,66% → total cliente = 100 / 0,8334 ≈ R$ 119,99 → 12 parcelas de R$ 10,00 cada → vendedor recebe R$ 100,00 líquidos.
+Exemplo: venda de R$ 10.000,00 em 12x à taxa de 16,6667% → total cliente = 10.000 / 0,833333 ≈ R$ 12.000,00 → 12 parcelas de R$ 1.000,00 cada → vendedor recebe R$ 10.000,00 líquidos.
 
 **Não é simples adição** (× 1 + taxa). Isso foi confirmado pela própria UI do app, que mostra "Você recebe: R$ 100,00" no modo repasse.
 
 ## 5. Decisões de UI já fechadas
 
 - **Layout em tabela**, não em cards/quadrados. Colunas: Parc. • Valor da parcela • Total no cartão • Taxa.
-- Linhas de **1x e 12x destacadas** em verde-limão (cor da InfinitePay).
-- Tema visual InfinitePay: preto + verde-limão (`#0a0a0a` e `#d2fc73`).
+- Linhas de **1x e 12x destacadas** em âmbar dourado.
+- Tema visual: **slate-navy + âmbar dourado** (`--c-dark: #0f172a`, `--c-accent: #fbbf24`, `--c-accent-dark: #f59e0b`). Variáveis CSS prefixadas com `--c-` (não `--ip-`). Versão anterior era preto + verde-limão (`#0a0a0a` / `#d2fc73`) — foi trocada em 2026-06-01 pra desvincular visualmente da InfinitePay.
 - Input de valor da venda com máscara BRL e prefixo "R$".
 - Botões para **copiar resumo** (texto plano) e **copiar formato WhatsApp** (com `*negrito*` e `_itálico_`).
 - Pílulas informativas no topo do cartão de input: "Recebe em 1 dia útil", "Cliente paga em até 12x", "Você recebe o valor cheio".
@@ -100,7 +102,7 @@ Tudo (HTML + CSS + JS) está em **um único arquivo HTML**, sem dependências ex
 
 ## 8. Como manter / evoluir
 
-- Se as taxas da InfinitePay mudarem, atualize o objeto `TAXAS` no `<script>` do `index.html` e a tabela da seção 3 deste arquivo.
+- Se as taxas da InfinitePay mudarem, atualize o objeto `TAXAS` no `<script>` do `index.html` e a tabela da seção 3 deste arquivo. **Cuidado:** 12x não é a taxa oficial — é customizada em 16,6667% (vide seção 3). Não sobrescreva sem checar.
 - Para verificar as taxas atuais: logar em `app.infinitepay.io` → "Cobrar" (Nova cobrança) → digitar qualquer valor → "Continuar" → "Parcelamento e taxas". A lista de "Ou você assume as parcelas" mostra os percentuais por parcela.
 - Se o plano de recebimento mudar (de D+1 para "na hora"), as taxas serão maiores — re-extraia.
 - O arquivo está em pasta com OneDrive, então qualquer salvamento já sincroniza para a nuvem do usuário.
@@ -122,14 +124,22 @@ Tudo (HTML + CSS + JS) está em **um único arquivo HTML**, sem dependências ex
    - URL final: https://poetinialegre-ship-it.github.io/simulador-preco-cartao-infinitepay/
 8. Removida pasta `.git/` corrompida que tinha sobrado de uma sandbox anterior (Cowork) que travou no meio de um `git init` — `git status` falhava com "fatal: not a git repository". Foi recriado do zero antes do push.
 9. Removido `PUBLICAR-NO-GITHUB.md` — era um guia manual em PowerShell pra publicação que ficou obsoleto após o deploy automatizado. Instruções de update foram pro README.md.
+10. **Sessão 2026-06-01 — descaracterização da marca InfinitePay e ajuste do 12x:**
+    - Removido o badge "InfinitePay" do cabeçalho da página.
+    - Removido "InfinitePay" do `<title>` da aba (agora "Simulador de Parcelamento no Cartão").
+    - Removido do rodapé (agora "Taxas com repasse para o cliente (Plano D+1).").
+    - Paleta visual trocada de preto + verde-limão (`#0a0a0a` / `#d2fc73`) para **slate-navy + âmbar dourado** (`#0f172a` / `#fbbf24`). Variáveis CSS renomeadas de `--ip-*` para `--c-*` (e `--c-black`/`--c-lime` viraram `--c-dark`/`--c-accent`).
+    - **Taxa de 12x ajustada de 16,66% (oficial InfinitePay) para 16,6667%** para que R$ 10.000 em 12x dê exatamente R$ 1.000,00/parcela. Display arredondado mostra "16,67%". Taxas de 1x a 11x permanecem oficiais.
+    - O nome do repositório/URL pública (`simulador-preco-cartao-infinitepay`) **não foi renomeado** porque já há links compartilhados em circulação.
 
 ## 10. Diretrizes de comportamento para o Claude
 
-- **Não reintroduza menções à InfinitePay** nos textos copiáveis dos resumos. Os resumos vão para clientes finais que pagam via Asaas.
+- **Sempre, ao final de uma atualização** (no `index.html`, fluxo, taxa, layout, deploy, qualquer coisa), **pergunte explicitamente ao usuário se ele quer que o `CLAUDE.md` seja atualizado** com as mudanças. Não atualize silenciosamente nem espere ele lembrar — a pergunta tem que partir de você. O objetivo é que este arquivo nunca fique defasado em relação ao estado real do projeto. Pergunte mesmo que a mudança pareça pequena; é melhor um "não precisa" do usuário do que perder contexto.
+- **Não reintroduza menções à InfinitePay** nos textos copiáveis dos resumos nem em elementos visíveis da página (cabeçalho, `<title>`, rodapé, badge). Os resumos vão para clientes finais que pagam via Asaas, e a página foi descaracterizada da marca em 2026-06-01.
 - **Não troque a fórmula gross-up** (`valor / (1 - taxa)`) por adição simples — isso quebraria o pressuposto "vendedor recebe o valor cheio".
 - **Não mude as bandeiras** sem antes confirmar com o usuário — a lista está alinhada às bandeiras aceitas pelo Asaas.
 - Se o usuário pedir para adicionar débito/Pix, lembre que essas operações têm taxas diferentes na InfinitePay (não estão na tabela atual).
-- Sempre que mexer no HTML, valide o cálculo com um caso conhecido: R$ 100 em 12x → R$ 10,00/parcela, total R$ 119,99.
+- Sempre que mexer no HTML, valide o cálculo com um caso conhecido: **R$ 10.000 em 12x → R$ 1.000,00/parcela, total R$ 12.000,00** (com `TAXAS[12] = 16.6667`). Caso secundário: R$ 100 em 12x → R$ 10,00/parcela, total R$ 120,00.
 - O arquivo principal **agora se chama `index.html`** (não `calculadora-infinitepay.html`) — necessário pro GitHub Pages servir na raiz do repo. Não renomeie de volta.
 - Toda mudança no `index.html` deve ser commitada e pushada (vide seção 11) — caso contrário, a versão online fica desatualizada em relação à local.
 
