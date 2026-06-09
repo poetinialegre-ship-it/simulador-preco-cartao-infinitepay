@@ -82,10 +82,12 @@ _Bandeiras aceitas: Visa, Mastercard, Elo, American Express, Hipercard e Diners 
 
 *Valor da compra:* R$ <valor>
 
-1x de R$ <parc>  _(total R$ <total>)_
+1x de R$ <parc>
 ...
-12x de R$ <parc>  _(total R$ <total>)_
+12x de R$ <parc>
 ```
+
+> **Diferença entre os dois formatos (desde 2026-06-09):** o formato **simples** mostra o total no cartão por parcela (`→ Total: R$ <total>`); o formato **WhatsApp** mostra **apenas o valor da parcela**, sem o total. O total foi removido do WhatsApp a pedido do usuário para deixar a mensagem mais enxuta. O cálculo do total continua sendo feito internamente (gross-up) para derivar a parcela — só não é exibido nessa saída.
 
 ## 7. Estrutura de arquivos
 
@@ -132,6 +134,7 @@ Tudo (HTML + CSS + JS) está em **um único arquivo HTML**, sem dependências ex
     - **Taxa de 12x ajustada de 16,66% (oficial InfinitePay) para 16,6667%** para que R$ 10.000 em 12x dê exatamente R$ 1.000,00/parcela. Display arredondado mostra "16,67%". Taxas de 1x a 11x permanecem oficiais.
     - O nome do repositório/URL pública (`simulador-preco-cartao-infinitepay`) **não foi renomeado** porque já há links compartilhados em circulação.
     - **Removidas as três pílulas informativas** do topo do cartão de input ("Recebe em 1 dia útil", "Cliente paga em até 12x", "Você recebe o valor cheio") — remetiam ao discurso de marketing da InfinitePay. CSS órfão de `.info-bar` / `.info-pill` ficou no arquivo.
+11. **Sessão 2026-06-09 — total removido do formato WhatsApp:** a pedido do usuário, o botão "Copiar formato WhatsApp" passou a exibir só o valor da parcela (`<n>x de R$ <parc>`), sem o `_(total R$ <total>)_`. O formato simples (botão "Copiar resumo para o cliente") permanece com o total. Cálculo do total segue interno (gross-up) para derivar a parcela. Commitado e pushado.
 
 ## 10. Diretrizes de comportamento para o Claude
 
