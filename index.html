@@ -501,7 +501,7 @@
       for (let n = 1; n <= 12; n++) {
         const total = valor / (1 - TAXAS[n] / 100);
         const parcela = total / n;
-        txt += `${n}x de R$ ${formatBRL(parcela)}  _(total R$ ${formatBRL(total)})_\n`;
+        txt += `${n}x de R$ ${formatBRL(parcela)}\n`;
       }
     } else {
       txt += `OPÇÕES DE PARCELAMENTO NO CARTÃO DE CRÉDITO\n`;
